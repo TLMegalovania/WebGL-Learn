@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebGL Demo</title>
+</head>
+
+<body>
+    <script id="vertex-shader" type="x-shader/x-vertex"># version 300 es
+        in vec2 pos;
+        //precision highp float;
+        out vec2 position;
+        void main(){
+            //gl_Position = vec4(rot, len, 1.0);
+            //position = normalize(pos);
+            position=vec2(pos.x,1.0-pos.y)*2.0-1.0;
+            gl_Position = vec4(position, 0.0, 1.0);
+            position = pos;
+        }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment"># version 300 es
+        precision highp float;
+        //uniform vec3 color;
+        in vec2 position;
+        out vec4 color;
+        void main() {
+            color = vec4(position,position.x * position.y,1);
+        }
+    </script>
+    <script src="render.js" type="module"></script>
+    <canvas id="glcanvas" width="600" height="460">
+        Your browser doesn't support canvas.
+    </canvas>
+</body>
+
+</html>

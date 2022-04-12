@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebGL Demo</title>
+</head>
+
+<body>
+    <script id="vertex-shader" type="x-shader/x-vertex"># version 300 es
+
+        in vec3 pos;
+        uniform float radian;
+        out vec3 afterrot;
+
+        void main(){
+            float cosine = cos(radian), sine = sin(radian);
+            mat3 romat;
+            romat[0] = vec3(cosine,0,sine);
+            romat[1] = vec3(0,1,0);
+            romat[2] = vec3(-sine,0,cosine);
+            afterrot = romat * pos;
+            gl_Position = vec4(afterrot, 1.0);
+            afterrot.x += 1.0;
+            afterrot.y += 1.0;
+            
+            //gl_Position = vec4(pos, 1.0);
+        }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment"># version 300 es
+
+        precision highp float;
+        in vec3 afterrot;
+        out vec4 color;
+        //uniform vec3 color;
+        
+        void main() {
+            vec3 nored = normalize(vec3(afterrot.x/1.3,afterrot.y,afterrot.z*1.3));
+            color = vec4(nored,1);
+            //gl_FragColor = vec4(1.0,0.5,0.0,1.0);
+        }
+    </script>
+    <script src="render.js" type="module"></script>
+    <canvas id="glcanvas" width="600" height="460">
+        Your browser doesn't support canvas.
+    </canvas>
+</body>
+
+</html>
